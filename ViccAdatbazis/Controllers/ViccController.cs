@@ -22,10 +22,7 @@ namespace ViccAdatbazis.Controllers
             _context = context;
         }
 
-        //list
-
-        [HttpGet]
-
+        
         
 
 
@@ -62,6 +59,23 @@ namespace ViccAdatbazis.Controllers
              await _context.SaveChangesAsync();
 
             return NoContent(); 
+        }
+
+        //torles
+
+        [HttpDelete("{id}")]
+
+        public async Task<ActionResult> DeleteVicc(int id) 
+        {
+            var torlendoVicc = _context.Viccek.Find(id);
+            if (torlendoVicc == null) {return NotFound();}
+            if (torlendoVicc.Aktiv) { torlendoVicc.Aktiv = false; _context.Entry(id).State = EntityState.Modified; }
+            else
+            {
+                _context.Viccek.Remove(torlendoVicc);
+            }
+            await _context.SaveChangesAsync();
+            return NoContent();
         }
 
 
